@@ -49,7 +49,7 @@ export default function Navbar() {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              <Link to="/">Learn</Link>
+              <Link to="/calculate">Calculate Your Tax</Link>
               <Link to="/">Earn</Link>
             </HStack>
           </HStack>
@@ -81,7 +81,7 @@ export default function Navbar() {
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
-              <Link to="/">Learn</Link>
+              <Link to="/calculate">Calculate Your Tax</Link>
               <Link to="/">Earn</Link>
             </Stack>
           </Box>
