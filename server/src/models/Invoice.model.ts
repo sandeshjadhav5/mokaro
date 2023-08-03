@@ -1,26 +1,42 @@
-const mongoose = require("mongoose");
+import { Document, Schema, model } from "mongoose";
 
-const invoiceSchema = new mongoose.Schema(
+// Interface for the Item in the items array
+export interface Item {
+  itemName: string;
+  quantity: number;
+  rate: number;
+  gstRate?: number; // Optional, used for tax calculation in the route
+}
+
+// Interface for the Invoice
+export interface InvoiceDocument extends Document {
+  customerName: string;
+  address: string;
+  emailId: string;
+  items: Item[];
+  taxAmount: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const itemSchema = new Schema<Item>({
+  itemName: { type: String, required: true },
+  quantity: { type: Number, required: true },
+  rate: { type: Number, required: true },
+  gstRate: { type: Number },
+});
+
+const invoiceSchema = new Schema<InvoiceDocument>(
   {
     customerName: { type: String, required: true },
-    invoiceNumber: {
-      type: String,
-      required: true,
-      unique: true,
-      default: () => new mongoose.Types.ObjectId().toString(),
-    },
     address: { type: String, required: true },
     emailId: { type: String, required: true },
-    items: [
-      {
-        itemName: { type: String, required: true },
-        quantity: { type: Number, required: true },
-        rate: { type: Number, required: true },
-        taxPercentage: { type: Number, required: true },
-        sacCode: { type: String, required: true },
-      },
-    ],
+    items: [itemSchema],
     taxAmount: { type: Number, required: true },
   },
   { timestamps: true }
 );
+
+const InvoiceModel = model<InvoiceDocument>("Invoice", invoiceSchema);
+
+export { InvoiceModel };

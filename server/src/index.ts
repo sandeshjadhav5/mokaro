@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 
 import { connection } from "./configs/db";
 import { userRouter } from "./routes/User.routes";
+import { invoiceRouter } from "./routes/Invoice.routes";
+
 const cors = require("cors");
 require("dotenv").config();
 
@@ -14,6 +16,7 @@ app.get("/api/v1", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/invoices", invoiceRouter);
 
 //Starting the server
 const port = process.env.port || 5000;
