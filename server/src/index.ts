@@ -1,19 +1,19 @@
-const express = require("express");
+import express, { Request, Response } from "express";
 
-const { connection } = require("./configs/db.ts");
+import { connection } from "./configs/db";
+import { userRouter } from "./routes/User.routes";
 const cors = require("cors");
-
 require("dotenv").config();
 
 const app = express();
-
 app.use(express.json());
-
 app.use(cors({ origin: "*" }));
 
-app.get("/api/v1", (req, res) => {
+app.get("/api/v1", (req: Request, res: Response) => {
   res.send("Welcome to Mokaro");
 });
+
+app.use("/api/v1/users", userRouter);
 
 //Starting the server
 const port = process.env.port || 5000;
