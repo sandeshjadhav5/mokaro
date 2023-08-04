@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Components/Navbar";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { ThunkDispatch } from "redux-thunk";
+import { AppState, AppActions } from "../Redux/AppReducer/types"; // Replace with your actual types
+
 import {
   SimpleGrid,
   Box,
@@ -10,8 +14,69 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
+import { getAllInvoices } from "../Redux/AppReducer/action";
+import { store } from "../Redux/store";
+
+interface Item {
+  itemName: string;
+  quantity: number;
+  rate: number;
+}
+
+type RootState = ReturnType<typeof store.getState>;
 
 const Calculate = () => {
+  const [customerName, setCustomerName] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [emailId, setEmailId] = useState<string>("");
+  const [items, setItems] = useState<Item[]>([]);
+  const [itemName, setItemName] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(0);
+  const [rate, setRate] = useState<number>(0);
+
+  const dispatch: ThunkDispatch<AppState, any, AppActions> = useDispatch();
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const numericValue = parseInt(inputValue, 10);
+    setQuantity(numericValue);
+  };
+
+  const invoices = useSelector((state: RootState) => state.AppReducer.invoices);
+  console.log("invoices => ", invoices);
+  const handleRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const numericValue = parseFloat(inputValue);
+    setRate(numericValue);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newItem: Item = {
+      itemName: itemName,
+      quantity: quantity,
+      rate: rate,
+    };
+    setItems([...items, newItem]);
+
+    setItemName("");
+    setQuantity(0);
+    setRate(0);
+
+    const payload = {
+      customerName,
+      address,
+      emailId,
+      items,
+    };
+
+    console.log(payload);
+  };
+  getAllInvoices();
+  useEffect(() => {
+    dispatch(getAllInvoices());
+  }, []);
   return (
     <div>
       <Navbar />
@@ -28,22 +93,38 @@ const Calculate = () => {
               Fill up all the details to check
             </Text>
 
-            <form>
+            <form onSubmit={handleFormSubmit}>
               <Box p="2">
                 <Text textAlign="left">Enter Your Name</Text>
-                <Input />
+                <Input
+                  required
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="Enter Name"
+                />
               </Box>
               <Box p="2">
                 <Text textAlign="left">Address</Text>
-                <Input />
+                <Input
+                  required
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="Enter Address Details"
+                />
               </Box>
               <Box p="2">
                 <Text textAlign="left">Email Id</Text>
-                <Input />
+                <Input
+                  required
+                  onChange={(e) => setEmailId(e.target.value)}
+                  placeholder="Enter Email Id"
+                />
               </Box>
               <Box p="2">
-                <Text textAlign="left">Select Item</Text>
-                <Select>
+                <Text textAlign="left">Select Item Category</Text>
+                <Select
+                  required
+                  onChange={(e) => setItemName(e.target.value)}
+                  placeholder="Enter Name"
+                >
                   <option value="">Select Item Category</option>
                   <option value="Books">Books</option>
                   <option value="Newspapers, magazines, journals and periodicals">
@@ -80,8 +161,24 @@ const Calculate = () => {
                 </Select>
               </Box>
               <Box p="2">
+                <Text textAlign="left">Quantity</Text>
+                <Input
+                  required
+                  onChange={handleQuantityChange}
+                  value={quantity.toString()}
+                  placeholder="Enter Quantity"
+                  type="number"
+                />
+              </Box>
+              <Box p="2">
                 <Text textAlign="left">Enter Price</Text>
-                <Input />
+                <Input
+                  required
+                  onChange={handleRateChange}
+                  value={rate.toString()}
+                  placeholder="Enter Price"
+                  type="number"
+                />
               </Box>
               <Box p="2">
                 <Input bg="green.300" type="submit" />

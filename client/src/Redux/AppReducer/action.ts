@@ -22,14 +22,14 @@ const addInvoiceError = () => {
   return { type: types.ADD_INVOICE_FAILURE };
 };
 
-const getAllInvoices = (payload: any) => (dispatch: Dispatch) => {
-  console.log("invoked");
+const getAllInvoices = () => (dispatch: Dispatch) => {
+  //console.log("invoked");
   dispatch(getInvoicesLoading());
   return axios
-    .get(`http://localhost:8080/tests`)
+    .get(`http://localhost:8080/api/v1/invoices/allinvoices`)
     .then((res: AxiosResponse) => {
       console.log(res);
-      dispatch(getInvoices({ tests: res.data }));
+      dispatch(getInvoices(res.data));
     })
     .catch((err) => {
       console.log(err);
@@ -40,7 +40,7 @@ const addNewInvoice = (data: any) => (dispatch: Dispatch) => {
   dispatch(addInvoiceLoading());
 
   return axios
-    .post(`https://localhost:8080/create`, data)
+    .post(`https://localhost:8080/api/v1/invoices/create`, data)
     .then((res: AxiosResponse) => {
       console.log(res.data);
       dispatch(addInvoiceSuccess());
