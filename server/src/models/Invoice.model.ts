@@ -5,7 +5,7 @@ export interface Item {
   itemName: string;
   quantity: number;
   rate: number;
-  gstRate?: number; // Optional, used for tax calculation in the route
+  gstRate?: number;
 }
 
 // Interface for the Invoice

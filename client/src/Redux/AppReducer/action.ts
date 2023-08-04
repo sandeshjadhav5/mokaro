@@ -26,7 +26,7 @@ const getAllInvoices = () => (dispatch: Dispatch) => {
   //console.log("invoked");
   dispatch(getInvoicesLoading());
   return axios
-    .get(`http://localhost:8080/api/v1/invoices/allinvoices`)
+    .get(`https://ill-tan-gown.cyclic.app/api/v1/invoices/allinvoices`)
     .then((res: AxiosResponse) => {
       console.log(res);
       dispatch(getInvoices(res.data));
@@ -40,7 +40,7 @@ const addNewInvoice = (data: any) => (dispatch: Dispatch) => {
   dispatch(addInvoiceLoading());
 
   return axios
-    .post(`http://localhost:8080/api/v1/invoices/create`, data)
+    .post(`https://ill-tan-gown.cyclic.app/api/v1/invoices/create`, data)
     .then((res: AxiosResponse) => {
       console.log(res.data);
       const tax = res.data.data.taxAmount;

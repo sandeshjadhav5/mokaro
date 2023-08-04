@@ -47,17 +47,17 @@ userRouter.post("/login", async (req: Request, res: Response) => {
             expiresIn: "1d",
           });
           console.log("Login Success");
-          res.send("Login Successful");
+          res.status(200).send("Login Successful");
         } else {
-          res.send("Wrong Credentials");
+          res.status(400).send("Wrong Credentials");
         }
       });
     } else {
-      res.send("Enter Correct Details");
+      res.status(400).send("Enter Correct Details");
     }
   } catch (err) {
     console.log(err);
-    res.send("Something Went Wrong");
+    res.status(500).send("Something Went Wrong");
   }
 });
 
