@@ -14,8 +14,8 @@ const getInvoicesLoading = () => {
   return { type: types.GET_INVOICES_LOADING };
 };
 
-const addInvoiceSuccess = () => {
-  return { type: types.ADD_INVOICE_SUCCESS };
+const addInvoiceSuccess = (payload: number) => {
+  return { type: types.ADD_INVOICE_SUCCESS, payload: payload };
 };
 
 const addInvoiceError = () => {
@@ -40,10 +40,12 @@ const addNewInvoice = (data: any) => (dispatch: Dispatch) => {
   dispatch(addInvoiceLoading());
 
   return axios
-    .post(`https://localhost:8080/api/v1/invoices/create`, data)
+    .post(`http://localhost:8080/api/v1/invoices/create`, data)
     .then((res: AxiosResponse) => {
       console.log(res.data);
-      dispatch(addInvoiceSuccess());
+      const tax = res.data.data.taxAmount;
+      console.log("sending tax amount", res.data.data.taxAmount);
+      dispatch(addInvoiceSuccess(tax));
     })
     .catch((err) => {
       dispatch(addInvoiceError());

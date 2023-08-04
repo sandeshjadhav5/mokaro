@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Heading } from "@chakra-ui/react";
 import Navbar from "../Components/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -14,8 +15,9 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
-import { getAllInvoices } from "../Redux/AppReducer/action";
+import { getAllInvoices, addNewInvoice } from "../Redux/AppReducer/action";
 import { store } from "../Redux/store";
+import { stat } from "fs";
 
 interface Item {
   itemName: string;
@@ -31,10 +33,17 @@ const Calculate = () => {
   const [emailId, setEmailId] = useState<string>("");
   const [items, setItems] = useState<Item[]>([]);
   const [itemName, setItemName] = useState<string>("");
-  const [quantity, setQuantity] = useState<number>(0);
-  const [rate, setRate] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [rate, setRate] = useState<number>(1);
 
   const dispatch: ThunkDispatch<AppState, any, AppActions> = useDispatch();
+
+  const invoices = useSelector((state: RootState) => state.AppReducer.invoices);
+  const taxAmount = useSelector(
+    (state: RootState) => state.AppReducer.taxAmount
+  );
+  // console.log("invoices => ", invoices);
+  console.log("taxAmount", taxAmount);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -42,12 +51,14 @@ const Calculate = () => {
     setQuantity(numericValue);
   };
 
-  const invoices = useSelector((state: RootState) => state.AppReducer.invoices);
-  console.log("invoices => ", invoices);
   const handleRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     const numericValue = parseFloat(inputValue);
     setRate(numericValue);
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemName(e.target.value);
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,25 +69,33 @@ const Calculate = () => {
       quantity: quantity,
       rate: rate,
     };
-    setItems([...items, newItem]);
-
-    setItemName("");
-    setQuantity(0);
-    setRate(0);
+    console.log("Previous items:", items);
+    const updatedItems = [...items, newItem];
+    setItems(updatedItems);
+    console.log("Updated items:", items);
 
     const payload = {
       customerName,
       address,
       emailId,
-      items,
+      items: updatedItems,
     };
 
     console.log(payload);
+    if (payload) {
+      dispatch(addNewInvoice(payload));
+      setCustomerName("");
+      setAddress("");
+      setEmailId("");
+      setItems([]);
+    }
   };
+
   getAllInvoices();
   useEffect(() => {
     dispatch(getAllInvoices());
   }, []);
+  useEffect(() => {}, [taxAmount]);
   return (
     <div>
       <Navbar />
@@ -122,8 +141,9 @@ const Calculate = () => {
                 <Text textAlign="left">Select Item Category</Text>
                 <Select
                   required
-                  onChange={(e) => setItemName(e.target.value)}
-                  placeholder="Enter Name"
+                  onChange={handleSelectChange}
+                  value={itemName}
+                  placeholder="Select Item Category"
                 >
                   <option value="">Select Item Category</option>
                   <option value="Books">Books</option>
@@ -184,6 +204,9 @@ const Calculate = () => {
                 <Input bg="green.300" type="submit" />
               </Box>
             </form>
+            {taxAmount !== 0 && (
+              <Heading>Estimated Tax is {taxAmount} ₹</Heading>
+            )}
           </Box>
         </Box>
       </SimpleGrid>

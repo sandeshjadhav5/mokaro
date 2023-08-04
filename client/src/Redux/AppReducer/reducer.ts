@@ -2,6 +2,7 @@ import * as types from "./actionTypes";
 
 interface State {
   invoices: [];
+  taxAmount: number;
   isLoading: boolean;
   addInvoiceLoading: boolean;
   addInvoiceSuccess: boolean;
@@ -10,6 +11,7 @@ interface State {
 
 const initialState: State = {
   invoices: [],
+  taxAmount: 0,
   isLoading: false,
   addInvoiceLoading: false,
   addInvoiceSuccess: false,
@@ -31,7 +33,13 @@ const reducer = (state: State = initialState, action: Action) => {
     case types.ADD_INVOICE_REQ:
       return { ...state, addInvoiceLoading: true };
     case types.ADD_INVOICE_SUCCESS:
-      return { ...state, addInvoiceLoading: false, addInvoiceSuccess: true };
+      console.log("inside reducer taxAmount", payload);
+      return {
+        ...state,
+        addInvoiceLoading: false,
+        addInvoiceSuccess: true,
+        taxAmount: payload,
+      };
     case types.ADD_INVOICE_FAILURE:
       return {
         ...state,

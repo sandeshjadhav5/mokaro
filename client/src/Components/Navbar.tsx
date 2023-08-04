@@ -82,7 +82,7 @@ export default function Navbar() {
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               <Link to="/calculate">Calculate Your Tax</Link>
-              <Link to="/">Earn</Link>
+              <Link to="/">All Invoices</Link>
             </Stack>
           </Box>
         ) : null}
