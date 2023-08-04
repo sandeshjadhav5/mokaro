@@ -4,7 +4,7 @@ import Navbar from "../Components/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
-import { AppState, AppActions } from "../Redux/AppReducer/types"; // Replace with your actual types
+import { AppState, AppActions } from "../Redux/AppReducer/types";
 
 import {
   SimpleGrid,
@@ -17,7 +17,6 @@ import {
 } from "@chakra-ui/react";
 import { getAllInvoices, addNewInvoice } from "../Redux/AppReducer/action";
 import { store } from "../Redux/store";
-import { stat } from "fs";
 
 interface Item {
   itemName: string;
@@ -42,7 +41,7 @@ const Calculate = () => {
   const taxAmount = useSelector(
     (state: RootState) => state.AppReducer.taxAmount
   );
-  // console.log("invoices => ", invoices);
+
   console.log("taxAmount", taxAmount);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +98,7 @@ const Calculate = () => {
   return (
     <div>
       <Navbar />
-      <SimpleGrid minChildWidth="220px" m="auto" spacing="20px" p="2">
+      <SimpleGrid minChildWidth="220px" m="auto" spacing="20px" p="2" mt="14">
         <Box>
           <Image src="https://i.imgur.com/8ytqevy.png" />
         </Box>

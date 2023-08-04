@@ -1,12 +1,13 @@
 import React from "react";
 import { Box, Heading, Container, Text, Button, Stack } from "@chakra-ui/react";
 import Navbar from "../Components/Navbar";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
     <>
       <Navbar />
-      <Container maxW={"3xl"}>
+      <Container maxW={"3xl"} mt="6">
         <Stack
           as={Box}
           textAlign={"center"}
@@ -38,15 +39,12 @@ function Home() {
               colorScheme={"green"}
               bg={"green.400"}
               rounded={"full"}
-              px={6}
+              px={8}
               _hover={{
                 bg: "green.500",
               }}
             >
-              Get Started
-            </Button>
-            <Button variant={"link"} colorScheme={"blue"} size={"sm"}>
-              Sign Up with MOKARO
+              <Link to="/calculate">Get Started</Link>
             </Button>
           </Stack>
         </Stack>
