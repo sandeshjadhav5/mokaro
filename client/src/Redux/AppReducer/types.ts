@@ -16,25 +16,24 @@ export interface Item {
 }
 
 export interface AppState {
-  invoices: Invoice[]; // An array of invoices in the state
-  isLoading: boolean; // Indicates if data is loading
-  addInvoiceLoading: boolean; // Indicates if adding an invoice is in progress
-  addInvoiceSuccess: boolean; // Indicates if adding an invoice was successful
-  addInvoiceFailure: boolean; // Indicates if adding an invoice failed
-  // Add other properties of your application state as needed
+  invoices: Invoice[];
+  template: any;
+  isLoading: boolean;
+  addInvoiceLoading: boolean;
+  addInvoiceSuccess: boolean;
+  addInvoiceFailure: boolean;
 }
 
-// Define the action types as string constants
 export const GET_INVOICES = "GET_INVOICES";
 export const GET_INVOICES_LOADING = "GET_INVOICES_LOADING";
 export const ADD_INVOICE_REQ = "ADD_INVOICE_REQ";
 export const ADD_INVOICE_SUCCESS = "ADD_INVOICE_SUCCESS";
 export const ADD_INVOICE_FAILURE = "ADD_INVOICE_FAILURE";
+export const CHANGE_TEMPLATE = "CHANGE_TEMPLATE";
 
-// Define interfaces for each action
 interface GetInvoicesAction {
   type: typeof GET_INVOICES;
-  payload: Invoice[]; // Payload for this action type
+  payload: Invoice[];
 }
 
 interface GetInvoicesLoadingAction {
@@ -52,9 +51,16 @@ interface AddInvoiceSuccessAction {
 interface AddInvoiceFailureAction {
   type: typeof ADD_INVOICE_FAILURE;
 }
+
+interface changeInvoiceTemplate {
+  type: typeof CHANGE_TEMPLATE;
+  payload: any;
+}
+
 export type AppActions =
   | GetInvoicesAction
   | GetInvoicesLoadingAction
   | AddInvoiceReqAction
   | AddInvoiceSuccessAction
-  | AddInvoiceFailureAction;
+  | AddInvoiceFailureAction
+  | changeInvoiceTemplate;

@@ -20,6 +20,7 @@ import {
   getAllInvoices,
   addNewInvoice,
   addInvoiceLoading,
+  changeInvoiceTemplate,
 } from "../Redux/AppReducer/action";
 import { store } from "../Redux/store";
 import Template2 from "../Components/Template2";
@@ -40,6 +41,9 @@ const Calculate = () => {
   const [itemName, setItemName] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
   const [rate, setRate] = useState<number>(1);
+
+  //for selecting template
+  const [selectedTemplate, setSelectedTemplate] = useState("template1");
 
   const dispatch: ThunkDispatch<AppState, any, AppActions> = useDispatch();
 
@@ -99,7 +103,15 @@ const Calculate = () => {
     }
   };
 
-  getAllInvoices();
+  //handleTemplate change function
+  const handleTemplateChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newTemplate = event.target.value;
+    setSelectedTemplate(newTemplate);
+    // dispatch(changeInvoiceTemplate(selectedTemplate));
+  };
+
   useEffect(() => {
     dispatch(getAllInvoices());
   }, []);
@@ -224,8 +236,17 @@ const Calculate = () => {
           </Box>
         </Box>
       </SimpleGrid>
-      <Template1 />
-      <Template2 />
+      <Box m="8">
+        <Text>Select Template for Invoice</Text>
+        <Select value={selectedTemplate} onChange={handleTemplateChange}>
+          <option value="template1">Template 1</option>
+          <option value="template2">Template 2</option>
+          {/* Add more options for other templates */}
+        </Select>
+      </Box>
+
+      {/* <Template1 />
+      <Template2 /> */}
     </div>
   );
 };

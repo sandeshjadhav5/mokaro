@@ -22,6 +22,10 @@ const addInvoiceError = () => {
   return { type: types.ADD_INVOICE_FAILURE };
 };
 
+const changeInvoiceTemplate = (payload: any) => {
+  return { type: types.CHANGE_TEMPLATE, payload: payload };
+};
+
 const getAllInvoices = () => (dispatch: Dispatch) => {
   //console.log("invoked");
   dispatch(getInvoicesLoading());
@@ -60,4 +64,5 @@ export {
   addInvoiceLoading,
   getAllInvoices,
   addNewInvoice,
+  changeInvoiceTemplate,
 };

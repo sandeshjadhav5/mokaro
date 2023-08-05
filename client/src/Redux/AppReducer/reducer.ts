@@ -2,7 +2,7 @@ import * as types from "./actionTypes";
 
 interface State {
   invoices: [];
-  template: string;
+  template: any;
   taxAmount: number;
   isLoading: boolean;
   addInvoiceLoading: boolean;
@@ -48,6 +48,11 @@ const reducer = (state: State = initialState, action: Action) => {
         addInvoiceFailure: true,
         addInvoiceLoading: false,
         addInvoiceSuccess: false,
+      };
+    case types.CHANGE_TEMPLATE:
+      return {
+        ...state,
+        template: payload,
       };
 
     default:
