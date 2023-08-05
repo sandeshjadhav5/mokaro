@@ -2,6 +2,7 @@ import * as types from "./actionTypes";
 
 interface State {
   invoices: [];
+  template: string;
   taxAmount: number;
   isLoading: boolean;
   addInvoiceLoading: boolean;
@@ -11,6 +12,7 @@ interface State {
 
 const initialState: State = {
   invoices: [],
+  template: "template1",
   taxAmount: 0,
   isLoading: false,
   addInvoiceLoading: false,

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 import { AppState, AppActions } from "../Redux/AppReducer/types";
+import Template1 from "../Components/Template1";
 
 import {
   SimpleGrid,
@@ -15,8 +16,13 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
-import { getAllInvoices, addNewInvoice } from "../Redux/AppReducer/action";
+import {
+  getAllInvoices,
+  addNewInvoice,
+  addInvoiceLoading,
+} from "../Redux/AppReducer/action";
 import { store } from "../Redux/store";
+import Template2 from "../Components/Template2";
 
 interface Item {
   itemName: string;
@@ -38,11 +44,14 @@ const Calculate = () => {
   const dispatch: ThunkDispatch<AppState, any, AppActions> = useDispatch();
 
   const invoices = useSelector((state: RootState) => state.AppReducer.invoices);
+  const checkTaxLoading = useSelector(
+    (state: RootState) => state.AppReducer.addInvoiceLoading
+  );
   const taxAmount = useSelector(
     (state: RootState) => state.AppReducer.taxAmount
   );
 
-  console.log("taxAmount", taxAmount);
+  //console.log("taxAmount", taxAmount);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -68,10 +77,10 @@ const Calculate = () => {
       quantity: quantity,
       rate: rate,
     };
-    console.log("Previous items:", items);
+    //console.log("Previous items:", items);
     const updatedItems = [...items, newItem];
     setItems(updatedItems);
-    console.log("Updated items:", items);
+    //console.log("Updated items:", items);
 
     const payload = {
       customerName,
@@ -200,7 +209,13 @@ const Calculate = () => {
                 />
               </Box>
               <Box p="2">
-                <Input bg="green.300" type="submit" />
+                <Input
+                  bg="green.300"
+                  fontWeight="bold"
+                  type="submit"
+                  _hover={{ bg: "green.500", cursor: "pointer" }}
+                  value={checkTaxLoading ? "Checking...." : "Check Tax"}
+                />
               </Box>
             </form>
             {taxAmount !== 0 && (
@@ -209,6 +224,8 @@ const Calculate = () => {
           </Box>
         </Box>
       </SimpleGrid>
+      <Template1 />
+      <Template2 />
     </div>
   );
 };
