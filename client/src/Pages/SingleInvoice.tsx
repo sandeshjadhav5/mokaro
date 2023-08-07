@@ -14,6 +14,7 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import Navbar from "../Components/Navbar";
 
 const SingleInvoice = () => {
   const id = useParams();
@@ -21,6 +22,9 @@ const SingleInvoice = () => {
 
   const [invoiceDetails, setInvoiceDetails] = useState({});
   const [invoices, setInvoices] = useState([]);
+  const [customerName, setCustomerName] = useState("");
+  const [emailId, setEmailId] = useState("");
+  const [tax, setTax] = useState();
 
   const getSingleInvoiceDetails = () => {
     axios
@@ -28,6 +32,9 @@ const SingleInvoice = () => {
       .then((res) => {
         setInvoiceDetails(res.data.data);
         setInvoices(res.data.invoices);
+        setCustomerName(res.data.data.customerName);
+        setEmailId(res.data.data.emailId);
+        setTax(res.data.data.taxAmount);
       })
       .catch((err) => {
         console.log(err);
@@ -40,28 +47,33 @@ const SingleInvoice = () => {
   }, []);
   return (
     <div>
-      <div className="mainContent">
-        <Box w="26%">
-          <Image border="solid #ccc 1px" m="2" />
+      <Navbar />
+
+      <Box mt="20">
+        <Box
+          w="50%"
+          border="1px"
+          borderColor="#ccc"
+          p="2"
+          alignItems="center"
+          m="auto"
+          alignContent="center"
+        >
+          <Text fontSize="2rem">Invoice Details</Text>
+          <Text textAlign="left" fontSize="1.5rem">
+            Name : {customerName}
+          </Text>
+          <br />
+          <Text textAlign="left" fontSize="1.5rem">
+            Email Id : {emailId}
+          </Text>
+          <br />
+          <Text textAlign="left" fontSize="1.5rem">
+            tax : {tax}
+          </Text>
+          <br />
         </Box>
-        <Box w="50%" alignItems="center" alignContent="center" m="2">
-          <Text textAlign="left" fontSize="1.5rem">
-            {/* Name : - {invoiceDetails && invoiceDetails.customerName} */}
-          </Text>
-          <br />
-          <Text textAlign="left" fontSize="1.5rem">
-            {/* Registration Number : - {invoiceDetails && invoiceDetails.emailId} */}
-          </Text>
-          <br />
-          <Text textAlign="left" fontSize="1.5rem">
-            Mobile Number : -
-          </Text>
-          <br />
-          <Text textAlign="left" fontSize="1.5rem">
-            Year : -
-          </Text>
-        </Box>
-      </div>
+      </Box>
     </div>
   );
 };
