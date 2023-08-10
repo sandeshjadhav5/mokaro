@@ -1,7 +1,10 @@
 // src/components/PdfDocument.tsx
 
 import React from "react";
+import { store } from "../Redux/store";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { useSelector } from "react-redux";
+type RootState = ReturnType<typeof store.getState>;
 
 const styles = StyleSheet.create({
   page: {
@@ -10,13 +13,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   title: {
-    fontSize: 24,
+    fontSize: 42,
     textAlign: "center",
     marginBottom: 20,
     width: "100%",
   },
   content: {
-    fontSize: 12,
+    fontSize: 24,
     textAlign: "justify",
     width: "100%",
   },
