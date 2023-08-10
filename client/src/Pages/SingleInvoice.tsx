@@ -15,6 +15,8 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import Navbar from "../Components/Navbar";
+import PDFDocument from "../Components/PDFDocument";
+import { PDFViewer } from "@react-pdf/renderer";
 
 const SingleInvoice = () => {
   const id = useParams();
@@ -49,7 +51,7 @@ const SingleInvoice = () => {
     <div>
       <Navbar />
 
-      <Box mt="20">
+      <Box mt="20" mb="10">
         <Box
           w="50%"
           border="1px"
@@ -61,7 +63,7 @@ const SingleInvoice = () => {
         >
           <Text fontSize="2rem">Invoice Details</Text>
           <Text textAlign="left" fontSize="1.5rem">
-            Name : {customerName}
+            Customer Name : {customerName}
           </Text>
           <br />
           <Text textAlign="left" fontSize="1.5rem">
@@ -69,10 +71,16 @@ const SingleInvoice = () => {
           </Text>
           <br />
           <Text textAlign="left" fontSize="1.5rem">
-            tax : {tax}
+            Tax : {tax}
           </Text>
           <br />
         </Box>
+      </Box>
+
+      <Box w="80%" m="auto">
+        <PDFViewer width="100%">
+          <PDFDocument />
+        </PDFViewer>
       </Box>
     </div>
   );
