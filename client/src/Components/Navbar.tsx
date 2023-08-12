@@ -53,6 +53,7 @@ export default function Navbar() {
           <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
             <Link to="/calculate">Calculate Your Tax</Link>
             <Link to="/invoices">All Invoices</Link>
+            <Link to="/templates">Templates</Link>
           </HStack>
         </HStack>
         <Flex alignItems={"center"}>
@@ -85,6 +86,7 @@ export default function Navbar() {
           <Stack as={"nav"} spacing={4}>
             <Link to="/calculate">Calculate Your Tax</Link>
             <Link to="/invoices">All Invoices</Link>
+            <Link to="/templates"></Link>
           </Stack>
         </Box>
       ) : null}
