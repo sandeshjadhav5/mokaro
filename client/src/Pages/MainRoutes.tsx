@@ -5,6 +5,7 @@ import Calculate from "./Calculate";
 import AllInvoices from "./AllInvoices";
 import SingleInvoice from "./SingleInvoice";
 import Templates from "./Templates";
+import SignUp from "./SignUp";
 
 function MainRoutes() {
   return (
@@ -15,6 +16,7 @@ function MainRoutes() {
         <Route path="/invoices" element={<AllInvoices />} />
         <Route path="/invoices/:id" element={<SingleInvoice />} />
         <Route path="templates" element={<Templates />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </div>
   );
